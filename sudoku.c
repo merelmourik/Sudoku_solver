@@ -40,24 +40,44 @@ void validate_input(char *str) {
     return ;
 }
 
-void create_raster(const char *str, Sudoku *sudoku) {
-    sudoku->raster = (char*)malloc(sizeof(char) * 90);
-    if (sudoku->raster == NULL)
+char *substr(const char *str, int start) {
+    char *new = malloc(sizeof(char) * 10);
+    if (new == NULL)
         exit(1);
-    sudoku->raster = strdup(str);
-    sudoku->raster[89] = '\0';
+    int i = 0;
+    for (int i = 0; i < 9; i++)
+        new[i] = str[i + start];
+    return (new);
 }
 
+char **create_raster(const char *str) {
+    char *raster[9];
+    int j = 0;
+    for (int i = 0; i < 9; i++) {
+        raster[i] = substr(str, j);
+        j += 10;
+    }
+    // for (int i = 0; i < 9; i++)
+    //     printf("%s\n", raster[i]);
+    return &raster;
+}
+
+// void solve_sudoku(Sudoku *sudoku)
 int main(int argc, char **argv) {
+    char *raster[9];
+
     if (argc == 2){
         validate_input(argv[1]);
-        Sudoku sudoku;
-        create_raster(argv[1], &sudoku);
-        printf("%s\n", sudoku.raster);
+        // Sudoku sudoku;
+        raster = create_raster(argv[1]);
+        // solve_sudoku(&sudoku);
+        // printf("%s\n", raster);
     }
     else {
         printf("Please enter one argument\n");
         return (0);     //or exit?
     }
+    // free(raster);
+    // system("leaks a.out");
     return (0);
 }

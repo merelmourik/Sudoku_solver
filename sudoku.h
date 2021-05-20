@@ -6,9 +6,9 @@
 #include <string.h>
 #include <stdlib.h>
 
-typedef struct Sudoku {
-    char *raster;
-} Sudoku ;
+// typedef struct Sudoku {
+//     char *raster;
+// } Sudoku ;
 
 #endif
 
