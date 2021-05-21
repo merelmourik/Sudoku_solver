@@ -40,7 +40,7 @@ void validate_input(char *str) {
     return ;
 }
 
-char *substr(const char *str, int start) {
+char *make_row(const char *str, int start) {
     char *new = malloc(sizeof(char) * 10);
     if (new == NULL)
         exit(1);
@@ -50,26 +50,40 @@ char *substr(const char *str, int start) {
     return (new);
 }
 
-char **create_raster(const char *str) {
-    char *raster[9];
+void create_raster(const char *str, char **raster) {
     int j = 0;
+
     for (int i = 0; i < 9; i++) {
-        raster[i] = substr(str, j);
+        raster[i] = make_row(str, j);
         j += 10;
     }
-    // for (int i = 0; i < 9; i++)
-    //     printf("%s\n", raster[i]);
-    return &raster;
+    return ;
 }
 
 // void solve_sudoku(Sudoku *sudoku)
+void print_sudoku(char **raster) {
+    for (int i = 0; i < 9; i++) {
+        for(int j = 0; j < 9; j++)
+            printf("%c ", raster[i][j]);
+        printf("\n");
+    }
+    return ;
+}
+
+void free_raster(char **raster) {
+    for (int i = 0; i < 9 ; i++)
+        free(raster[i]);
+}
 int main(int argc, char **argv) {
-    char *raster[9];
+    char **raster;
 
     if (argc == 2){
         validate_input(argv[1]);
-        // Sudoku sudoku;
-        raster = create_raster(argv[1]);
+        raster = (char **)malloc(sizeof(char *) * 9);
+        if (raster == NULL)
+            exit(1);
+        create_raster(argv[1], raster);
+        print_sudoku(raster);
         // solve_sudoku(&sudoku);
         // printf("%s\n", raster);
     }
@@ -77,7 +91,7 @@ int main(int argc, char **argv) {
         printf("Please enter one argument\n");
         return (0);     //or exit?
     }
-    // free(raster);
-    // system("leaks a.out");
+    free_raster(raster);
+    system("leaks a.out");
     return (0);
 }
