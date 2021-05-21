@@ -60,7 +60,47 @@ void create_raster(const char *str, char **raster) {
     return ;
 }
 
-// void solve_sudoku(Sudoku *sudoku)
+int find_open_spots(char **raster) {
+    int count = 0;
+    
+    for (int i = 0; i < 9; i++)
+        for (int j = 0; j < 9; j++) {
+            if (raster[i][j] == '.')
+                count++;
+        }
+    return count;
+}
+
+void free_locations()
+void solve_sudoku(char **raster) {
+    Sudoku sudoku;
+    int count;
+
+    count = find_open_spots(raster);
+    sudoku.locations = (int **)malloc(sizieof(int *) * count);
+    int **locations[count][2];
+    printf("%d\n", count);
+        /*
+        - vind een punt (we gaan van links naar rechts, naar boven naar beneden)
+        - zet daar het laagst mogelijke nummer in wat kan
+        - check of dat getal in het vierkantje kan
+        - check of dat getal in de column can
+        - check of dat getal in de rij kan
+        - niet check? zet er een getal hoger neer en doe weer de checks
+        - allemaal check?
+        - onthoud de locatie van waar je was gebleven (en die van die daarvoor?)
+        - ga naar de volgende punt en zet daar het volgende oplopende getal is
+        - voor de checks weer uit
+        - allemaal mooi? continue ->
+        - allemaal niet zo mooi? delete waar je was het getal en zet er weer een punt neer
+        - ga naar de vorige plek en zet een getal hoger neer
+        - doe de checks weer
+        - bij het getal 9 aangekomen en het werkt nog steeds niet?
+        - go nog een locatie terug en doe daar hetzelfde
+        */
+        free(sudoku)
+}
+
 void print_sudoku(char **raster) {
     for (int i = 0; i < 9; i++) {
         for(int j = 0; j < 9; j++)
@@ -74,6 +114,7 @@ void free_raster(char **raster) {
     for (int i = 0; i < 9 ; i++)
         free(raster[i]);
 }
+
 int main(int argc, char **argv) {
     char **raster;
 
@@ -84,14 +125,14 @@ int main(int argc, char **argv) {
             exit(1);
         create_raster(argv[1], raster);
         print_sudoku(raster);
-        // solve_sudoku(&sudoku);
-        // printf("%s\n", raster);
+        //wait for key press and then solve
+        solve_sudoku(raster);
     }
     else {
         printf("Please enter one argument\n");
         return (0);     //or exit?
     }
     free_raster(raster);
-    system("leaks a.out");
+    // system("leaks a.out");
     return (0);
 }
