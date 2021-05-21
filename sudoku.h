@@ -7,12 +7,16 @@
 #include <stdlib.h>
 
 typedef struct Sudoku {
-    int **locations;
-    char **raster;
+    int     **empty_box;
+    char    **raster;
+    int     count;
 } Sudoku ;
 
 void print_sudoku(char **raster);
 void free_sudoku(Sudoku *sudoku);
+void create_raster(const char *str, Sudoku *sudoku);
+char *make_row(const char *str, int start);
+void invalid_input();
 
 
 #endif
