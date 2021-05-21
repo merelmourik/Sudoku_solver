@@ -30,7 +30,7 @@ int count_empty_boxes(char **raster) {
 
 void get_empty_boxes(Sudoku *sudoku) {
     sudoku->count = count_empty_boxes(sudoku->raster);
-    sudoku->empty_box = (int **)malloc(sizeof(int *) * sudoku->count);       //+1?
+    sudoku->empty_box = (int **)malloc(sizeof(int *) * sudoku->count);
     if (!sudoku->empty_box)
         exit(1);
     for (int i = 0; i < sudoku->count; i++) {
@@ -46,6 +46,85 @@ void get_empty_boxes(Sudoku *sudoku) {
                 sudoku->empty_box[k][1] = j;
                 k++;
             }
+        }
+    }
+}
+
+int check_row(char *row, int find) {
+    find += 48;         //to transfer to character in ascii
+    for (int i = 0; i < 9; i++) {
+        if (row[i] == find)
+            return (-1);
+    }
+    return (0);
+}
+
+int check_column(char *column, int find) {
+    find += 48;         //to transfer to character in ascii
+    for (int i = 0; i < 9; i++) {
+        if (column[i] == find)
+            return (-1);
+    }
+    return (0);
+}
+
+int check_the_box(char **raster, int x, int y, int find) {
+    find += 48;
+    int i = x + 3;
+    int j = y + 3;
+
+    while (x < i) {
+        while (y < j) {
+            if (raster[x][y] == find)
+                return (-1);
+            j++;
+        }
+        i++;
+    }
+    return (0);
+}
+
+int check_box(char **raster, int x, int y, int find) {
+    if (x < 3) {
+        if (y < 3) 
+            return (check_the_box(raster, 0, 0, find));
+        if (y > 2 && y < 6) 
+            return(check_the_box(raster, 3, 0, find));
+        else
+            return(check_the_box(raster, 6, 0, find));
+    }
+    if (x > 2 && x < 6) {
+        if (y < 3) 
+            return (check_the_box(raster, 0, 3, find));
+        if (y > 2 && y < 6) 
+            return(check_the_box(raster, 3, 3, find));
+        else
+            return(check_the_box(raster, 6, 3, find));
+    }
+    else {
+        if (y < 3) 
+            return (check_the_box(raster, 0, 6, find));
+        if (y > 2 && y < 6) 
+            return(check_the_box(raster, 3, 6, find));
+        else
+            return(check_the_box(raster, 6, 6, find));
+    }
+}
+
+int check_box(Sudoku *sudoku,) {
+    // 0 is de x en 1 is de y
+    int box = 0;
+    int x = sudoku->empty_box[box][0];
+    int y = sudoku->empty_box[box][1];
+    int i = 0;
+    while (i < sudoku->count) { // zo lang niet alle lege boxes zijn gevonden
+        for (int j = 1; j < 10; j++;) {
+            sudoku->raster[x][y] = j;   // locatie van een lege box
+            if (check_row(sudoku->raster[x], j);
+                if (check_column(sudoku->raster[y], j));
+                    if (check_box(sudoku->raster, x, y, j));
+                        break;
+            j++;
         }
     }
 }

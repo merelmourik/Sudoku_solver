@@ -10,6 +10,7 @@ typedef struct Sudoku {
     int     **empty_box;
     char    **raster;
     int     count;
+    int     location;
 } Sudoku ;
 
 void print_sudoku(char **raster);
