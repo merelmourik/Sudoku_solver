@@ -8,7 +8,12 @@
 
 typedef struct Sudoku {
     int **locations;
+    char **raster;
 } Sudoku ;
+
+void print_sudoku(char **raster);
+void free_sudoku(Sudoku *sudoku);
+
 
 #endif
 
