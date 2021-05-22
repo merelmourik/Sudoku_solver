@@ -1,4 +1,4 @@
-#include "sudoku.h"
+#include "main.h"
 
 void print_sudoku(char **raster) {
     for (int i = 0; i < 9; i++) {
@@ -31,7 +31,6 @@ char *make_row(const char *str, int start) {
     char *new = malloc(sizeof(char) * 10);
     if (new == NULL)
         exit(1);
-    int i = 0;
     for (int i = 0; i < 9; i++)
         new[i] = str[i + start];
     return (new);
