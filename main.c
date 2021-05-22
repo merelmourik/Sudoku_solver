@@ -30,7 +30,7 @@ int count_empty_boxes(char **raster) {
 
 void get_empty_boxes(Sudoku *sudoku) {
     sudoku->count = count_empty_boxes(sudoku->raster);
-    sudoku->empty_box = (int **)malloc(sizeof(int *) * sudoku->count);
+    sudoku->empty_box = (int **)malloc(sizeof(int *) * sudoku->count + 1);
     if (!sudoku->empty_box)
         exit(1);
     for (int i = 0; i < sudoku->count; i++) {
@@ -48,6 +48,7 @@ void get_empty_boxes(Sudoku *sudoku) {
             }
         }
     }
+    sudoku->empty_box[k] = NULL;
 }
 
 int check_row(char *row, int find) {
@@ -119,16 +120,18 @@ void solve_sudoku(Sudoku *sudoku) {
     int x = sudoku->empty_box[box][0];
     int y = sudoku->empty_box[box][1];
     while (i < sudoku->count) { // zo lang niet alle lege boxes zijn gevonden
-        for (int j = 1; j < 10; j++) {
-            if (check_row(sudoku->raster[x], j) == 0) {
-                if (check_column(sudoku->raster, x, j) == 0)    {     //ik pak de verkeerde hier
-                    if (check_box(sudoku->raster, x, y, j) == 0) {
-                        sudoku->raster[x][y] = j + 48;
+        for (int j = 1; j < 10; j++)
+            if (check_row(sudoku->raster[x], j) == 0)       //row check
+                if (check_column(sudoku->raster, x, j) == 0)        //column check
+                    if (check_box(sudoku->raster, x, y, j) == 0) {      //box check
+                        sudoku->raster[x][y] = j + 48;      //filling in the blanc spot
+                        if (i == sudoku->count - 1)     //of NULL terminaten
+                            break ;
+                        box++;      //go to the next empty spot
+                        x = sudoku->empty_box[box][0];      //communicate the x of the empty box
+                        y = sudoku->empty_box[box][1];      //communicate the y of the empty box
                         break;
                     }
-                    }
-            }
-        }
         i++;
     }
     printf("\n");
@@ -161,7 +164,7 @@ int main(int argc, char **argv) {
 //    if (!sudoku)
 //        return (-1);
 //    if (argc != 2){
-    argv[1] = "82539764. 194652873 763418295 612789534 459263187 387145962 231976458 978524316 546831729";
+    argv[1] = "8..397641 194652873 763418295 612789534 459263187 387145962 231976458 978524316 546831729";
     validate_input(argv[1]);
     create_raster(argv[1], sudoku);
     print_sudoku(sudoku->raster);
