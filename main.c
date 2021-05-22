@@ -62,6 +62,10 @@ int check_row(char *row, int find) {
 
 int check_column(char **raster, int x, int find) {
     find += 48;         //to transfer to character in ascii
+    if (x == 0 && find == 1) {
+        for (int j = 0; j < 9; j++)
+            printf("%s\n", raster[j]);
+    }
     for (int i = 0; i < 9; i++) {
         if (raster[x][i] == find)
             return (-1);
@@ -96,19 +100,19 @@ int check_box(char **raster, int x, int y, int find) {
     }
     if (x > 2 && x < 6) {
         if (y < 3)
-            return (check_the_box(raster, 0, 3, find));
+            return (check_the_box(raster, 3, 6, find));
         if (y > 2 && y < 6)
-            return(check_the_box(raster, 3, 3, find));
+            return(check_the_box(raster, 6, 6, find));
         else
-            return(check_the_box(raster, 6, 3, find));
+            return(check_the_box(raster, 9, 6, find));
     }
     else {
         if (y < 3)
-            return (check_the_box(raster, 0, 6, find));
+            return (check_the_box(raster, 3, 9, find));
         if (y > 2 && y < 6)
-            return(check_the_box(raster, 3, 6, find));
+            return(check_the_box(raster, 6, 9, find));
         else
-            return(check_the_box(raster, 6, 6, find));
+            return(check_the_box(raster, 9, 9, find));
     }
 }
 
@@ -136,19 +140,19 @@ void solve_sudoku(Sudoku *sudoku) {
                     }
             j++;
             if (j == 10) {
-                i--;
-                box--;      // de oude j moet hier goed worden gereset
+                if (i != 0)
+                    i -= 2;
+                if (box != 0)
+                    box--;      // de oude j moet hier goed worden gereset
+                sudoku->raster[x][y] = '.';
                 x = sudoku->empty_box[box][0];      //communicate the x of the empty box
                 y = sudoku->empty_box[box][1];
-                j = sudoku->raster[x][y];
-//                sudoku->raster[x][y] = '.';
+                j = sudoku->raster[x][y] - 48;
                 break ;     // er moet ergens een punt worden gezet
             }
         }
         i++;
     }
-    printf("\n");
-    print_sudoku(sudoku->raster);
 
     /*
     - vind een punt (we gaan van links naar rechts, naar boven naar beneden)
@@ -177,13 +181,14 @@ int main(int argc, char **argv) {
 //    if (!sudoku)
 //        return (-1);
 //    if (argc != 2){
-    argv[1] = "825..7641 1.4652873 76..18295 6127.9534 .59263187 38714596. 23197..58 9785243.. .468317.9";
+    argv[1] = "79....3.. .....69.. 8...3..76 .....5..2 ..54187.. 4..7..... 61..9...8 ..23..... ..9....54";
     validate_input(argv[1]);
     create_raster(argv[1], sudoku);
     print_sudoku(sudoku->raster);
     // //wait for key press and then solve
     solve_sudoku(sudoku);
-    // print_sudoku(sudoku->raster);
+    printf("\n");
+    print_sudoku(sudoku->raster);
 //    }
 //    else {
 //        printf("Please enter one argument\n");
@@ -196,3 +201,7 @@ int main(int argc, char **argv) {
 
 //825397641 194652873 763418295 612789534 459263187 387145962 231976458 978524316 546831729
 //.7......5 .26.5.47. ..38.61.. ..5.....2 ...7.8... 4.....3.. ..29.75.. .87.6.23. 3......9.
+//79....3.. .....69.. 8...3..76 .....5..2 ..54187.. 4..7..... 61..9...8 ..23..... ..9....54
+//https://voorbeginners.info/sudoku-puzzels/makkelijk-1-oplossing.htm
+
+//bij de 8e gaat hij ongeveer verkeerd j zou 6 moeten zijn
