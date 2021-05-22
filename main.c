@@ -116,22 +116,35 @@ void solve_sudoku(Sudoku *sudoku) {
     get_empty_boxes(sudoku);
 
     int i = 0;
+    int j = 1;
     int box = 0;
     int x = sudoku->empty_box[box][0];
     int y = sudoku->empty_box[box][1];
     while (i < sudoku->count) { // zo lang niet alle lege boxes zijn gevonden
-        for (int j = 1; j < 10; j++)
+        while (j < 10) {
             if (check_row(sudoku->raster[x], j) == 0)       //row check
                 if (check_column(sudoku->raster, x, j) == 0)        //column check
                     if (check_box(sudoku->raster, x, y, j) == 0) {      //box check
                         sudoku->raster[x][y] = j + 48;      //filling in the blanc spot
                         if (i == sudoku->count - 1)     //of NULL terminaten
-                            break ;
+                            break;
                         box++;      //go to the next empty spot
+                        j = 1;
                         x = sudoku->empty_box[box][0];      //communicate the x of the empty box
                         y = sudoku->empty_box[box][1];      //communicate the y of the empty box
                         break;
                     }
+            j++;
+            if (j == 10) {
+                i--;
+                box--;      // de oude j moet hier goed worden gereset
+                x = sudoku->empty_box[box][0];      //communicate the x of the empty box
+                y = sudoku->empty_box[box][1];
+                j = sudoku->raster[x][y];
+//                sudoku->raster[x][y] = '.';
+                break ;     // er moet ergens een punt worden gezet
+            }
+        }
         i++;
     }
     printf("\n");
@@ -164,7 +177,7 @@ int main(int argc, char **argv) {
 //    if (!sudoku)
 //        return (-1);
 //    if (argc != 2){
-    argv[1] = "8..397641 194652873 763418295 612789534 459263187 387145962 231976458 978524316 546831729";
+    argv[1] = "825..7641 1.4652873 76..18295 6127.9534 .59263187 38714596. 23197..58 9785243.. .468317.9";
     validate_input(argv[1]);
     create_raster(argv[1], sudoku);
     print_sudoku(sudoku->raster);
@@ -180,3 +193,6 @@ int main(int argc, char **argv) {
     // system("leaks a.out");
     return (0);
 }
+
+//825397641 194652873 763418295 612789534 459263187 387145962 231976458 978524316 546831729
+//.7......5 .26.5.47. ..38.61.. ..5.....2 ...7.8... 4.....3.. ..29.75.. .87.6.23. 3......9.
