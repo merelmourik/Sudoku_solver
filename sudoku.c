@@ -22,7 +22,7 @@ void solve_sudoku(Sudoku *sudoku) {
                     }
             j++;
             if (j == 10) {
-                if (box == 0)
+                if (box == 1)
                     return (unsolvable_sudoku());
                 box -= 2;    
                 sudoku->raster[y][x] = '.';
@@ -32,6 +32,7 @@ void solve_sudoku(Sudoku *sudoku) {
                 break ;
             }
         }
+    print_sudoku(sudoku->raster);
 }
 
 int main(int argc, char **argv) {
@@ -42,15 +43,14 @@ int main(int argc, char **argv) {
     if (!sudoku)
         return (-1);
 //    if (argc != 2){
-    argv[1] = "...7...9. ..9.3..6. 8..6..432 7....36.. .2..7..5. ..85....7 981..7..6 .4..9.2.. .6...5...";
+    argv[1] = "516849732 3.76.5... 8.97...65 135.6.9.7 472591..6 96837..5. 253186.74 6842.75.. 791.5.6.8";
     validate_input(argv[1]);
     create_raster(argv[1], sudoku);
     print_sudoku(sudoku->raster);
-    solve_sudoku(sudoku);
     printf("\nPress a key to solve the sudoku\n");
     getchar();
     system("clear");
-    print_sudoku(sudoku->raster);
+    solve_sudoku(sudoku);
 //    }
 //    else {
 //        printf("Please enter one argument\n");
@@ -60,3 +60,5 @@ int main(int argc, char **argv) {
     // system("leaks a.out");
     return (0);
 }
+
+//516849732 3.76.5... 8.97...65 135.6.9.7 472591..6 96837..5. 253186.74 6842.75.. 791.5.6.8
