@@ -18,6 +18,13 @@ void free_sudoku(Sudoku *sudoku);
 void create_raster(const char *str, Sudoku *sudoku);
 char *make_row(const char *str, int start);
 void invalid_input();
+void validate_input(char *str);
+int count_empty_boxes(char **raster);
+void get_empty_boxes(Sudoku *sudoku);
+int check_column(Sudoku *sudoku, int x, int find);
+int check_row(char *row, int find);
+int check_box(char **raster, int y, int x, int find);
+int check_the_box(char **raster, int y, int x, int find);
 
 
 #endif
