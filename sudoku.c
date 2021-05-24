@@ -38,27 +38,21 @@ void solve_sudoku(Sudoku *sudoku) {
 int main(int argc, char **argv) {
     system("clear");
     Sudoku *sudoku = malloc(sizeof(Sudoku));
-    (void)argc;
-
     if (!sudoku)
         return (-1);
-//    if (argc != 2){
-    argv[1] = "516849732 3.76.5... 8.97...65 135.6.9.7 472591..6 96837..5. 253186.74 6842.75.. 791.5.6.8";
-    validate_input(argv[1]);
-    create_raster(argv[1], sudoku);
-    print_sudoku(sudoku->raster);
-    printf("\nPress a key to solve the sudoku\n");
-    getchar();
-    system("clear");
-    solve_sudoku(sudoku);
-//    }
-//    else {
-//        printf("Please enter one argument\n");
-//        return (0);     //or exit?
-//    }
+    if (argc == 2){
+        validate_input(argv[1]);
+        create_raster(argv[1], sudoku);
+        print_sudoku(sudoku->raster);
+        printf("\nPress a key to solve the sudoku\n");
+        getchar();
+        system("clear");
+        solve_sudoku(sudoku);
+    }
+    else {
+       printf("Please enter one argument\n");
+       return (0);
+    }
     free_sudoku(sudoku);
-    // system("leaks a.out");
     return (0);
 }
-
-//516849732 3.76.5... 8.97...65 135.6.9.7 472591..6 96837..5. 253186.74 6842.75.. 791.5.6.8
