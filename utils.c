@@ -18,21 +18,21 @@ void create_raster(const char *str, Sudoku *sudoku) {
     sudoku->raster = (char **)malloc(sizeof(char *) * 9);
     if(!sudoku->raster)
         exit (1);
-    int j = 0;
+    int i = 0;
 
-    for (int i = 0; i < 9; i++) {
-        sudoku->raster[i] = make_row(str, j);
-        j += 10;
+    for (int y = 0; y < 9; y++) {
+        sudoku->raster[y] = make_row(str, i);
+        i += 10;
     }
     return ;
 }
 
-char *make_row(const char *str, int start) {
+char *make_row(const char *str, int i) {
     char *new = malloc(sizeof(char) * 10);
     if (new == NULL)
         exit(1);
-    for (int i = 0; i < 9; i++)
-        new[i] = str[i + start];
+    for (int x = 0; x < 9; x++)
+        new[x] = str[x + i];
     return (new);
 }
 
