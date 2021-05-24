@@ -1,22 +1,8 @@
 #include "sudoku.h"
 
-void print_sudoku(char **raster) {
-    for (int i = 0; i < 9; i++) {
-        for(int j = 0; j < 9; j++)
-            printf("%c ", raster[i][j]);
-        printf("\n");
-    }
-    return ;
-}
-
-void free_sudoku(Sudoku *sudoku) {
-    for (int i = 0; i < 9 ; i++)
-        free(sudoku->raster[i]);
-}
-
 int check_the_box(char **raster, int y, int x, int find) {
-    find += 48;
-    int j = y - 3;
+    find    += 48;
+    int j   = y - 3;
 
     while(j < y) {
         int i = x - 3;
@@ -59,7 +45,8 @@ int check_box(char **raster, int y, int x, int find) {
 }
 
 int check_row(char *row, int find) {
-    find += 48;         //to transfer to character in ascii
+    find += 48;      
+
     for (int x = 0; x < 9; x++)
         if (row[x] == find)
             return (-1);
@@ -68,6 +55,7 @@ int check_row(char *row, int find) {
 
 int check_column(Sudoku *sudoku, int x, int find) {
     find += 48;
+    
     for (int y = 0; y < 9; y++) {
         if (sudoku->raster[y][x] == find)
             return (-1);
@@ -75,4 +63,16 @@ int check_column(Sudoku *sudoku, int x, int find) {
     return (0);
 }
 
+void print_sudoku(char **raster) {
+    for (int i = 0; i < 9; i++) {
+        for(int j = 0; j < 9; j++)
+            printf("%c ", raster[i][j]);
+        printf("\n");
+    }
+    return ;
+}
 
+void free_sudoku(Sudoku *sudoku) {
+    for (int i = 0; i < 9 ; i++)
+        free(sudoku->raster[i]);
+}
