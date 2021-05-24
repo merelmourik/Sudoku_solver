@@ -1,15 +1,15 @@
-#include "main.h"
+#include "sudoku.h"
 
 void validate_input(char *str) {
     int j = 0;
 
-    if (strlen(str) != 89)      // check amount of characters
+    if (strlen(str) != 89)
         invalid_input();
-    for (int i = 0; str[i] != '\0' ; i++)      // check if it are the correct characters
+    for (int i = 0; str[i] != '\0' ; i++)
         if (str[i] != '.' && str[i] != ' ' && (str[i] < '1' || str[i] > '9'))
             invalid_input();
-    for (int i = 0; str[i - 1] != '\0'; i++)      // check if the spaces are at the correct position
-        if ((i) % 9 == 0 && i != 0) {
+    for (int i = 0; str[i - 1] != '\0'; i++) 
+        if (i % 9 == 0 && i != 0) {
             if (str[i + j] != ' ' && i != 81)
                 invalid_input();
             j++;
@@ -123,8 +123,6 @@ void solve_sudoku(Sudoku *sudoku) {
     int x = sudoku->empty_box[box][1];
     while (i < sudoku->count) { // zo lang niet alle lege boxes zijn gevonden
         while (j < 10) {
-            if (y == 6)
-            {printf("ohou\n");}
             if (check_row(sudoku->raster[y], j) == 0)       //row check
                 if (check_column(sudoku, x, j) == 0)        //column check
                     if (check_box(sudoku->raster, y, x, j) == 0)
