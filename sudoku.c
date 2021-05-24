@@ -2,12 +2,11 @@
 
 void solve_sudoku(Sudoku *sudoku) {
     int count   = get_empty_boxes(sudoku);
-    int box     = 0;
     int j       = 1;
-    int y       = sudoku->empty_box[box][0];
-    int x       = sudoku->empty_box[box][1];
+    int y       = sudoku->empty_box[0][0];
+    int x       = sudoku->empty_box[0][1];
 
-    while (box <= count) { 
+    for (int box = 0; box <= count; box++)
         while (j < 10) {
             if (check_row(sudoku->raster[y], j) == 0)       
                 if (check_column(sudoku, x, j) == 0)     
@@ -23,11 +22,8 @@ void solve_sudoku(Sudoku *sudoku) {
                     }
             j++;
             if (j == 10) {
-                if (box == 0) {
-                    printf("If I can't solve this sudoku, no one can!\n");
-                    free_sudoku(sudoku);
-                    return ;
-                }
+                if (box == 0)
+                    return (unsolvable_sudoku());
                 box -= 2;    
                 sudoku->raster[y][x] = '.';
                 y = sudoku->empty_box[box][0];
@@ -36,8 +32,6 @@ void solve_sudoku(Sudoku *sudoku) {
                 break ;
             }
         }
-        box++;
-    }
 }
 
 int main(int argc, char **argv) {
@@ -52,10 +46,8 @@ int main(int argc, char **argv) {
     validate_input(argv[1]);
     create_raster(argv[1], sudoku);
     print_sudoku(sudoku->raster);
-    // //wait for key press and then solve
     solve_sudoku(sudoku);
-    printf("\n");
-    printf("Press a key to solve the sudoku\n");
+    printf("\nPress a key to solve the sudoku\n");
     getchar();
     system("clear");
     print_sudoku(sudoku->raster);
@@ -68,4 +60,3 @@ int main(int argc, char **argv) {
     // system("leaks a.out");
     return (0);
 }
-//validating, preparing, solving

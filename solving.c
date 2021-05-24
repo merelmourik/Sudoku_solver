@@ -55,7 +55,7 @@ int check_row(char *row, int find) {
 
 int check_column(Sudoku *sudoku, int x, int find) {
     find += 48;
-    
+
     for (int y = 0; y < 9; y++) {
         if (sudoku->raster[y][x] == find)
             return (-1);
@@ -65,8 +65,13 @@ int check_column(Sudoku *sudoku, int x, int find) {
 
 void print_sudoku(char **raster) {
     for (int i = 0; i < 9; i++) {
-        for(int j = 0; j < 9; j++)
+        if (i % 3 == 0 && i != 0)
+            printf("---------------------\n");
+        for(int j = 0; j < 9; j++) {
+            if (j % 3 == 0 && j != 0)
+                printf("| ");
             printf("%c ", raster[i][j]);
+        }
         printf("\n");
     }
     return ;
@@ -75,4 +80,10 @@ void print_sudoku(char **raster) {
 void free_sudoku(Sudoku *sudoku) {
     for (int i = 0; i < 9 ; i++)
         free(sudoku->raster[i]);
+}
+
+void unsolvable_sudoku()
+{
+    printf("If I can't solve this sudoku, no one can!\n");
+    return ;
 }
