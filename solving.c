@@ -64,6 +64,7 @@ int check_column(Sudoku *sudoku, int x, int find) {
 }
 
 void print_sudoku(char **raster) {
+    system("clear");
     for (int i = 0; i < 9; i++) {
         if (i % 3 == 0 && i != 0)
             printf("---------------------\n");

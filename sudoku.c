@@ -12,7 +12,8 @@ void solve_sudoku(Sudoku *sudoku) {
                 if (check_column(sudoku, x, j) == 0)     
                     if (check_box(sudoku->raster, y, x, j) == 0)
                     {    
-                        sudoku->raster[y][x] = j + 48;     
+                        sudoku->raster[y][x] = j + 48;  
+                        print_sudoku(sudoku->raster);
                         if (box == count)    
                             break;
                         j = 1;
@@ -22,9 +23,12 @@ void solve_sudoku(Sudoku *sudoku) {
                     }
             j++;
             if (j == 10) {
-                if (box == 1)
+                if (box == 0)
                     return (unsolvable_sudoku());
-                box -= 2;    
+                if (box == 1)
+                    box--;
+                else
+                    box -= 2;    
                 sudoku->raster[y][x] = '.';
                 y = sudoku->empty_box[box][0];
                 x = sudoku->empty_box[box][1]; 
@@ -32,11 +36,9 @@ void solve_sudoku(Sudoku *sudoku) {
                 break ;
             }
         }
-    print_sudoku(sudoku->raster);
 }
 
 int main(int argc, char **argv) {
-    system("clear");
     Sudoku *sudoku = malloc(sizeof(Sudoku));
     if (!sudoku)
         return (-1);
