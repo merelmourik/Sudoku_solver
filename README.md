@@ -15,3 +15,5 @@ Wanna challange the code by giving it an unsolvable sudoku?
 I even prepepared this for you! Just run "make unsolvable".
 
 Have fun!
+
+Ps, I know it is not the fastest algorithm, but I made it so I'm proud :)
